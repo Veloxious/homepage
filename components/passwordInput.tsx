@@ -20,7 +20,7 @@ const toTitleCase = (str: string) => str
   .join(' ')
 
 const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
-  ({ className, type, ...props }) => {
+  ({ className, type, ...props }, ref) => {
 
     return (
       <div className="flex w-full items-center relative">
@@ -28,10 +28,12 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
           {toTitleCase(props.id)}
         </Label>
         <Input
+          {...props}
           id={props.id}
           placeholder={toTitleCase(props.id)}
           type="password"
           disabled={props.disabled}
+          ref={ref}
         />
         <div
           className={cn(buttonVariants({ variant: "ghost" }), "absolute right-0")}
