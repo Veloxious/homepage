@@ -8,7 +8,7 @@ export const runtime = 'edge'
 export async function GET(request: NextRequest) {
   // this is the KV binding you defined in the wrangler.toml file
   const myKv = getRequestContext().env.MY_KV
-  console.log(getRequestContext().env)
+
   // get a value from the namespace
   const kvValue = await myKv.get(`kvTest`) || false
 
