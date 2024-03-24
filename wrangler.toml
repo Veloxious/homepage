@@ -3,6 +3,11 @@ name = "demo-app"
 compatibility_flags = ["nodejs_compat"]
 
 [[kv_namespaces]]
-
 binding = "MY_KV"
 id = "00032e5420394c9787a591aaa29c386b"
+
+[[d1_databases]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "prod-landhorn"
+database_id = "babe0b0f-2387-47a6-addc-6d49dd19bebf"
+
