@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuCheckboxItem
-} from "@radix-ui/react-dropdown-menu"
+} from "@/components/ui/dropdown-menu"
 import {
   ColumnDef,
   flexRender,

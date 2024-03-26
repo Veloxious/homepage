@@ -25,20 +25,23 @@ CREATE TABLE Projects (
   Description TEXT
 );
 
--- Create Run-Sheets Table
+-- Create RunSheets Table
 CREATE TABLE RunSheets (
-  RunSheetID INTEGER PRIMARY KEY,
-  TractID TEXT,
-  Title TEXT,
-  Description TEXT,
-  ProjectID INTEGER REFERENCES Projects(ProjectID),
-  UserID INTEGER REFERENCES Users(UserID),
-  TitleRecordID INTEGER REFERENCES TitleRecords(TitleRecordID),
-  CoversFrom DATE,
-  CoversTo DATE,
-  Status TEXT,
-  CreatedBy TEXT,
-  GrossAcres INTEGER
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  tractId TEXT NOT NULL,
+  titleExaminer TEXT,
+  county TEXT,
+  description TEXT,
+  titleRecords TEXT,
+  project TEXT,
+  location TEXT NOT NULL,
+  grossAcres INTEGER,
+  coversTo DATE,
+  coversFrom DATE,
+  deleted BOOLEAN,
+  status TEXT,
+  created_at DATE,
+  updated_at DATE
 );
 
 -- Create Title-Records table
@@ -67,3 +70,18 @@ CREATE TABLE TitleRecords (
   Updated DATE
 );
 
+-- Insert statements for array items
+INSERT INTO RunSheets (id, tractId, titleExaminer, county, description, titleRecords, project, location, grossAcres, coversTo, coversFrom, deleted, status, created_at, updated_at)
+VALUES (0, '22-18S-25E-1 NW4 and SE4', '', '', 'Northwest Quarter and Southeast Quarter of Section 22, Township 18S, Range 25E, Eddy County, New Mexico', '', 'NM Drill Site Title', 'Eddy', 320, '2024-05-01', '1900-01-01', 0, '', '2024-02-11', '2024-02-11');
+
+INSERT INTO RunSheets (id, tractId, titleExaminer, county, description, titleRecords, project, location, grossAcres, coversTo, coversFrom, deleted, status, created_at, updated_at)
+VALUES (1, '22-18S-25E-1', '', '', 'Southwest Quarter and Northwest Quarter', '', 'NM Drill Site Title', 'Eddy', 320, '2024-03-01', '1900-01-01', 0, '', '2024-02-10', '2024-02-11');
+
+INSERT INTO RunSheets (id, tractId, titleExaminer, county, description, titleRecords, project, location)
+VALUES (2, 'GR-120-01', '', '', 'Stuff In a Place', '', 'AC East', 'Grimes');
+
+INSERT INTO RunSheets (id, tractId, titleExaminer, county, description, titleRecords, project, location, grossAcres, coversTo, coversFrom, deleted, status, created_at, updated_at)
+VALUES (3, 'GR-420-69', '', '', '', '', 'AC East', 'Grimes', 101.69, '2023-11-16', '2023-11-16', 0, '', '2023-11-16', '2024-01-30');
+
+INSERT INTO RunSheets (id, tractId, titleExaminer, county, description, titleRecords, project, location, grossAcres, coversTo, coversFrom, deleted, status, created_at, updated_at)
+VALUES (4, 'GR-069-069', '', '', '', '', 'AC East', 'Grimes', 320, '1900-01-01', '2023-01-01', 0, '', '2023-10-10', '2023-12-19');

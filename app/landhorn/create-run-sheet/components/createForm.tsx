@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,41 +15,51 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Calendar } from "@/components/ui/calendar"
+import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
-import { Popover, PopoverTrigger, PopoverContent } from "@radix-ui/react-popover"
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
-import { Textarea } from "@/components/ui/textarea"
 
 const formSchema = z.object({
   tractID: z.string().min(2).max(50),
   tractLocation: z.string().min(2).max(50),
   titleExaminer: z.string().min(2).max(50),
-  grossAcres: z.number().min(0).max(1000),
-  coversFromDate: z.date(),
-  coversToDate: z.date(),
+  grossAcres: z.coerce.number().min(0).max(1000),
+  coversFrom: z.date(),
+  coversTo: z.date(),
   description: z.string().min(2).max(500),
 })
 
-export default function CreateForm() {
-  // 1. Define your form.
+export default function CreateForm({ action }: { action: (formData: FormData) => Promise<void> }) {
   const form = useForm<z.infer<typeof formSchema>>({
+    shouldUnregister: false,
     resolver: zodResolver(formSchema),
     defaultValues: {
       tractID: "",
       tractLocation: "",
       titleExaminer: "",
-      coversFromDate: new Date(),
-      coversToDate: new Date(),
+      coversFrom: new Date(),
+      coversTo: new Date(),
       description: "",
     },
   })
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  function onSubmit(data: z.infer<typeof formSchema>) {
+    const formData = new FormData()
+    formData.append("tractID", data.tractID)
+    formData.append("location", data.tractLocation)
+    formData.append("titleExaminer", data.titleExaminer)
+    formData.append("grossAcres", data.grossAcres.toString())
+    formData.append("coversFrom", data.coversFrom.toISOString())
+    formData.append("coversTo", data.coversTo.toISOString())
+    formData.append("description", data.description)
+    formData.append("deleted", "false")
+    formData.append("status", '')
+    formData.append("created_at", new Date().toISOString())
+    formData.append("updated_at", new Date().toISOString())
+
+    action(formData)
   }
 
   return (
@@ -86,7 +95,7 @@ export default function CreateForm() {
             />
             <FormField
               control={form.control}
-              name="coversFromDate"
+              name="coversFrom"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Covers From</FormLabel>
@@ -155,7 +164,7 @@ export default function CreateForm() {
             />
             <FormField
               control={form.control}
-              name="coversToDate"
+              name="coversTo"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Covers To</FormLabel>
@@ -210,7 +219,10 @@ export default function CreateForm() {
           )}
         />
         <FormMessage />
-        <Button type="submit">Submit</Button>
+        <div className="w-1/2 m-auto flex justify-between">
+          <Button type="submit" size="lg">Submit</Button>
+          <Button type="button" size="lg" variant="destructive">Cancel</Button>
+        </div>
       </form>
     </Form>
   )
